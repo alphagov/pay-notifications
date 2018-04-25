@@ -13,11 +13,11 @@ pipeline {
   }
 
   stages {
-    #stage('Test') {
-    #  steps {
-    #    sh './ci-build.sh'
-    #  }
-    #}
+    // stage('Test') {
+    //  steps {
+    //    sh './ci-build.sh'
+    //  }
+    //}
 
     stage('Docker Build') {
       steps {
@@ -56,14 +56,14 @@ pipeline {
         deployEcs("notifications")
       }
     }
-    #stage('Smoke Tests') {
-    #  when {
-    #    branch 'master'
-    #  }
-    #  steps {
-    #    runDirectDebitSmokeTest()
-    #  }
-    #}
+    //stage('Smoke Tests') {
+    //  when {
+    //    branch 'master'
+    //  }
+    //  steps {
+    //    runDirectDebitSmokeTest()
+    //  }
+    //}
     stage('Complete') {
       failFast true
       parallel {
