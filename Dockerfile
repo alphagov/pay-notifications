@@ -3,6 +3,8 @@ FROM govukpay/alpine:latest-master
 ENV NGINX_VERSION=1.13.3 \
     NAXSI_VERSION=0.55.3
 
+USER root
+
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && CONFIG="\
       --prefix=/etc/nginx \
