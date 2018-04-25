@@ -1,0 +1,40 @@
+########################################################################
+#                          Relaxed rules                               #
+########################################################################
+#  id  |      value      |                 whitelisted                 #
+# -------------------------------------------------------------------- #
+# 11   |                 | URL /v1/api/notifications/worldpay          #
+#      | Content type    |                                             #
+# -------------------------------------------------------------------- #
+# 1205 | \\              | Any notification body                       #
+#      |                 |                                             #
+# -------------------------------------------------------------------- #
+# 1000 | SQL keywords    | HEADER(cookie)                              #
+#      | * see below     |                                             #
+# -------------------------------------------------------------------- #
+# 1002 | 0x              | HEADER(cookie)                              #
+# -------------------------------------------------------------------- #
+# 1007 | --              | HEADER (cookie)                             #
+# -------------------------------------------------------------------- #
+# 1010 | (               | URL /v1/api/notifications/smartpay          #
+#      |                 | reason                                      #
+# -------------------------------------------------------------------- #
+# 1011 | )               | URL /v1/api/notifications/smartpay          #
+#      |                 | reason                                      #
+# -------------------------------------------------------------------- #
+
+# SQL keywords = select|union|update|delete|insert|table|from|ascii|hex|unhex|drop
+
+
+# naxsi doesn't seem to like WorldPay's notification Content-Type.
+BasicRule wl:11;
+
+# We're expecting XML in the body of notifications, so it's going to
+# contain slashes - that's not a traversal attack (core rule 1205).
+BasicRule wl:1205 "mz:BODY";
+
+# SQL key words, 0x, \\ in cookie
+BasicRule wl:1000,1002,1007 "mz:$HEADERS_VAR:cookie";
+
+#SMARTPAY NOTIFICATIONS - reason field in smartpay notifications can contain ()
+BasicRule wl:1010,1011 "mz:$URL:/v1/api/notifications/smartpay|$BODY_VAR_X:^reason$";
