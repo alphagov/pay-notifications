@@ -27,6 +27,12 @@ server {
   ssl_certificate /etc/keys/crt;
   ssl_certificate_key /etc/keys/key;
 
+  # Health check url
+  location /healthcheck {
+    return 200 'OK';
+    add_header Content-Type text/plain;
+  }
+
   location /v1/api/notifications {
     set $http_x_request_id $request_id;
 

@@ -57,6 +57,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
         gcc \
         libc-dev \
         make \
+        openssl \
         openssl-dev \
         pcre-dev \
         zlib-dev \
@@ -99,6 +100,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && make install \
     && rm -rf /etc/nginx/html/ \
     && mkdir /etc/nginx/conf.d/ \
+    && mkdir /etc/nginx/ssl/ \
     && mkdir -p /usr/share/nginx/html/ \
     && install -m644 html/index.html /usr/share/nginx/html/ \
     && install -m644 html/50x.html /usr/share/nginx/html/ \
@@ -109,6 +111,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && strip /usr/sbin/nginx* \
     && strip /usr/lib/nginx/modules/*.so \
     && rm -rf /usr/src/nginx-$NGINX_VERSION \
+    && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
     \
     # Bring in gettext so we can get `envsubst`, then throw
     # the rest away. To do this, we need to install `gettext`
