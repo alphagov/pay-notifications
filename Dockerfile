@@ -5,8 +5,48 @@ ENV NGINX_VERSION=1.13.3 \
 
 USER root
 
+RUN addgroup -S nginx \
+    && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx
+
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
-    && CONFIG="\
+    && apk add --no-cache --virtual .build-deps \
+        gcc \
+        libc-dev \
+        make \
+        openssl \
+        openssl-dev \
+        pcre-dev \
+        zlib-dev \
+        linux-headers \
+        curl \
+        gnupg \
+        libxslt-dev \
+        gd-dev \
+        geoip-dev \
+    && curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
+    && curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && found=''; \
+    for server in \
+        ha.pool.sks-keyservers.net \
+        hkp://keyserver.ubuntu.com:80 \
+        hkp://p80.pool.sks-keyservers.net:80 \
+        pgp.mit.edu \
+    ; do \
+        echo "Fetching GPG key $GPG_KEYS from $server"; \
+        gpg --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
+    done; \
+    test -z "$found" && echo >&2 "error: failed to fetch GPG key $GPG_KEYS" && exit 1; \
+    gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz \
+    && rm -r "$GNUPGHOME" nginx.tar.gz.asc \
+    && curl -fSL https://github.com/nbs-system/naxsi/archive/$NAXSI_VERSION.tar.gz -o naxsi.tar.gz \
+    && mkdir -p /usr/src \
+    && tar -zxC /usr/src -f nginx.tar.gz \
+    && rm nginx.tar.gz \
+    && tar -zxC /usr/src -f naxsi.tar.gz \
+    && rm naxsi.tar.gz
+
+RUN CONFIG="\
       --prefix=/etc/nginx \
       --sbin-path=/usr/sbin/nginx \
       --modules-path=/usr/lib/nginx/modules \
@@ -51,44 +91,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
       --with-file-aio \
       --with-ipv6 \
       --with-http_v2_module" \
-    && addgroup -S nginx \
-    && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
-    && apk add --no-cache --virtual .build-deps \
-        gcc \
-        libc-dev \
-        make \
-        openssl \
-        openssl-dev \
-        pcre-dev \
-        zlib-dev \
-        linux-headers \
-        curl \
-        gnupg \
-        libxslt-dev \
-        gd-dev \
-        geoip-dev \
-    && curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
-    && curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
-    && export GNUPGHOME="$(mktemp -d)" \
-    && found=''; \
-    for server in \
-        ha.pool.sks-keyservers.net \
-        hkp://keyserver.ubuntu.com:80 \
-        hkp://p80.pool.sks-keyservers.net:80 \
-        pgp.mit.edu \
-    ; do \
-        echo "Fetching GPG key $GPG_KEYS from $server"; \
-        gpg --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
-    done; \
-    test -z "$found" && echo >&2 "error: failed to fetch GPG key $GPG_KEYS" && exit 1; \
-    gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz \
-    && rm -r "$GNUPGHOME" nginx.tar.gz.asc \
-    && curl -fSL https://github.com/nbs-system/naxsi/archive/$NAXSI_VERSION.tar.gz -o naxsi.tar.gz \
-    && mkdir -p /usr/src \
-    && tar -zxC /usr/src -f nginx.tar.gz \
-    && rm nginx.tar.gz \
-    && tar -zxC /usr/src -f naxsi.tar.gz \
-    && rm naxsi.tar.gz \
     && cd /usr/src/nginx-$NGINX_VERSION \
     && ./configure $CONFIG --with-debug \
     && make -j$(getconf _NPROCESSORS_ONLN) \
@@ -110,28 +112,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && ln -s ../../usr/lib/nginx/modules /etc/nginx/modules \
     && strip /usr/sbin/nginx* \
     && strip /usr/lib/nginx/modules/*.so \
-    && rm -rf /usr/src/nginx-$NGINX_VERSION \
-    && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
-    \
-    # Bring in gettext so we can get `envsubst`, then throw
-    # the rest away. To do this, we need to install `gettext`
-    # then move `envsubst` out of the way so `gettext` can
-    # be deleted completely, then move `envsubst` back.
-    && apk add --no-cache --virtual .gettext gettext \
-    && mv /usr/bin/envsubst /tmp/ \
-    \
-    && runDeps="$( \
-        scanelf --needed --nobanner /usr/sbin/nginx /usr/lib/nginx/modules/*.so /tmp/envsubst \
-            | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-            | sort -u \
-            | xargs -r apk info --installed \
-            | sort -u \
-    )" \
-    && apk add --no-cache --virtual .nginx-rundeps $runDeps \
-    && apk del .build-deps \
-    && apk del .gettext \
-    && mv /tmp/envsubst /usr/local/bin/ \
-    \
+    && rm -rf /usr/src/nginx-$NGINX_VERSION
+
+RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
     # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
