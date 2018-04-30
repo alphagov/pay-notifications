@@ -121,9 +121,15 @@ RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
 
 RUN mkdir /app && chown -R nginx:nginx /etc/nginx
 ADD src/docker-startup.sh /app
-ADD src/files/naxsi* /etc/nginx/
+ADD src/files/naxsi*.rules /etc/nginx/
+ADD src/files/authorized_ip /etc/nginx/
+ADD src/files/*.conf /etc/nginx/conf.d/
 ADD src/files/sites.nginx /etc/nginx/conf.d/notifications.conf
-COPY src/files/nginx.conf /etc/nginx/nginx.conf
+COPY src/files/nginx_conf /etc/nginx/nginx.conf
+
+authorized_ip				naxsi_connector_whitelist.rules		naxsi_include_module.conf		sites.nginx
+extra_headers.conf			naxsi_core.rules			nginx.conf
+naxsi.rules				naxsi_dd_connector_whitelist.rules	proxy_headers.conf
 
 EXPOSE 443
 
