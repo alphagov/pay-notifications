@@ -127,10 +127,6 @@ ADD src/files/*.conf /etc/nginx/conf.d/
 ADD src/files/sites.nginx /etc/nginx/conf.d/notifications.conf
 COPY src/files/nginx_conf /etc/nginx/nginx.conf
 
-authorized_ip				naxsi_connector_whitelist.rules		naxsi_include_module.conf		sites.nginx
-extra_headers.conf			naxsi_core.rules			nginx.conf
-naxsi.rules				naxsi_dd_connector_whitelist.rules	proxy_headers.conf
-
 EXPOSE 443
 
 WORKDIR /app
