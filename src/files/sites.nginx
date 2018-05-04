@@ -29,7 +29,15 @@ server {
 
   # Health check url
   location /healthcheck {
+    set $http_x_request_id $request_id;
     return 200 'OK';
+    add_header Content-Type text/plain;
+  }
+
+  # Request denied
+  location /request-denied {
+    set $http_x_request_id $request_id;
+    return 400 'DENIED';
     add_header Content-Type text/plain;
   }
 
