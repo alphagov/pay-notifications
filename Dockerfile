@@ -38,7 +38,10 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     done; \
     test -z "$found" && echo >&2 "error: failed to fetch GPG key $GPG_KEYS" && exit 1; \
     gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz \
-    && rm -r "$GNUPGHOME" nginx.tar.gz.asc \
+    && echo 'Stopping gpg-agent and dirmngr' \
+    && pkill -9 gpg-agent && pkill -9 dirmngr \
+    && echo 'Removing $GNUPGHOME and nginx fingerprint' \
+    && rm -rf "$GNUPGHOME" nginx.tar.gz.asc \
     && curl -fSL https://github.com/nbs-system/naxsi/archive/$NAXSI_VERSION.tar.gz -o naxsi.tar.gz \
     && mkdir -p /usr/src \
     && tar -zxC /usr/src -f nginx.tar.gz \
