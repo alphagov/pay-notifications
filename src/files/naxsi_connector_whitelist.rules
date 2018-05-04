@@ -18,9 +18,16 @@
 # -------------------------------------------------------------------- #
 # 1010 | (               | URL /v1/api/notifications/smartpay          #
 #      |                 | reason                                      #
+#      |                 | URL /v1/api/notifications/epdq              #
+#      |                 | cn                                          #
 # -------------------------------------------------------------------- #
 # 1011 | )               | URL /v1/api/notifications/smartpay          #
 #      |                 | reason                                      #
+#      |                 | URL /v1/api/notifications/epdq              #
+#      |                 | reason                                      #
+# -------------------------------------------------------------------- #
+# 1013 | '               | URL /v1/api/notifications/epdq              #
+#      |                 | cn                                          #
 # -------------------------------------------------------------------- #
 
 # SQL keywords = select|union|update|delete|insert|table|from|ascii|hex|unhex|drop
@@ -38,3 +45,6 @@ BasicRule wl:1000,1002,1007 "mz:$HEADERS_VAR:cookie";
 
 #SMARTPAY NOTIFICATIONS - reason field in smartpay notifications can contain ()
 BasicRule wl:1010,1011 "mz:$URL:/v1/api/notifications/smartpay|$BODY_VAR_X:^reason$";
+
+#EPDQ NOTIFICATIONS - cn field in epdq notifications can contain () and '
+BasicRule wl:1010,1011,1013 "mz:$URL:/v1/api/notifications/epdq|$BODY_VAR_X:^cn$";
