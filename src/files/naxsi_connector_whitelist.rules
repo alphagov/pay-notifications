@@ -32,6 +32,9 @@
 # 1015 | ,               | URL /v1/api/notifications/epdq              #
 #      |                 | cn                                          #
 # -------------------------------------------------------------------- #
+# 1101 | https://        | URL /v1/api/notifications/stripe            #
+#      |                 | return_url                                  #
+# -------------------------------------------------------------------- #
 
 # SQL keywords = select|union|update|delete|insert|table|from|ascii|hex|unhex|drop
 
@@ -51,3 +54,7 @@ BasicRule wl:1010,1011 "mz:$URL:/v1/api/notifications/smartpay|$BODY_VAR_X:^reas
 
 #EPDQ NOTIFICATIONS - cn field in epdq notifications can contain () and '
 BasicRule wl:1010,1011,1013,1015 "mz:$URL:/v1/api/notifications/epdq|$BODY_VAR_X:^cn$";
+
+#STRIPE NOTIFICATIONS - return_url field in stripe notifications contains https://
+BasicRule wl:1101 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^return_url$";
+BasicRule wl:1009,1101 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^url$";
