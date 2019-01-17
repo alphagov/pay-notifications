@@ -32,11 +32,15 @@
 #      |                 | cn                                          #
 #      |                 | URL /v1/api/notifications/stripe            #
 #      |                 | failure_message                             #
+#      |                 | URL /v1/api/notifications/stripe            #
+#      |                 | name                                        #
 # -------------------------------------------------------------------- #
 # 1015 | ,               | URL /v1/api/notifications/epdq              #
 #      |                 | cn                                          #
 #      |                 | URL /v1/api/notifications/stripe            #
 #      |                 | line                                        #
+#      |                 | URL /v1/api/notifications/stripe            #
+#      |                 | name                                        #
 # -------------------------------------------------------------------- #
 # 1009 | =               | URL /v1/api/notifications/stripe            #
 #      |                 | return_url                                  #
@@ -75,4 +79,5 @@ BasicRule wl:1009,1101,1100 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^r
 BasicRule wl:1009,1101,1100 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^url$";
 BasicRule wl:1010,1314 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^seller_message$";
 BasicRule wl:1015 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^line";
+BasicRule wl:1013,1015 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^name$";
 BasicRule wl:1013 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^failure_message$";
