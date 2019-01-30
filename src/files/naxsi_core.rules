@@ -1,3 +1,10 @@
+##################################################################################
+# DOCUMENTATION                                                                  #
+# https://github.com/nbs-system/naxsi/wiki/whitelists-bnf                        #
+# https://github.com/nbs-system/naxsi/blob/master/naxsi_config/naxsi_core.rules  #
+# https://github.com/nbs-system/naxsi/wiki                                       #
+##################################################################################
+
 ##################################
 ## INTERNAL RULES IDS:1-999     ##
 ##################################
