@@ -1,62 +1,11 @@
-########################################################################
-#                          Relaxed rules                               #
-########################################################################
-#  id  |      value      |                 whitelisted                 #
-# -------------------------------------------------------------------- #
-# 11   |                 | URL /v1/api/notifications/worldpay          #
-#      | Content type    |                                             #
-# -------------------------------------------------------------------- #
-# 1205 | \\              | Any notification body                       #
-#      |                 |                                             #
-# -------------------------------------------------------------------- #
-# 1000 | SQL keywords    | HEADER(cookie)                              #
-#      | * see below     |                                             #
-# -------------------------------------------------------------------- #
-# 1002 | 0x              | HEADER(cookie)                              #
-# -------------------------------------------------------------------- #
-# 1007 | --              | HEADER (cookie)                             #
-# -------------------------------------------------------------------- #
-# 1010 | (               | URL /v1/api/notifications/smartpay          #
-#      |                 | reason                                      #
-#      |                 | URL /v1/api/notifications/epdq              #
-#      |                 | cn                                          #
-#      |                 | URL /v1/api/notifications/stripe            #
-#      |                 | seller_message                              #
-# -------------------------------------------------------------------- #
-# 1011 | )               | URL /v1/api/notifications/smartpay          #
-#      |                 | reason                                      #
-#      |                 | URL /v1/api/notifications/epdq              #
-#      |                 | reason                                      #
-# -------------------------------------------------------------------- #
-# 1013 | '               | URL /v1/api/notifications/epdq              #
-#      |                 | cn                                          #
-#      |                 | URL /v1/api/notifications/stripe            #
-#      |                 | failure_message                             #
-#      |                 | URL /v1/api/notifications/stripe            #
-#      |                 | name                                        #
-# -------------------------------------------------------------------- #
-# 1015 | ,               | URL /v1/api/notifications/epdq              #
-#      |                 | cn                                          #
-#      |                 | URL /v1/api/notifications/stripe            #
-#      |                 | line                                        #
-#      |                 | URL /v1/api/notifications/stripe            #
-#      |                 | name                                        #
-# -------------------------------------------------------------------- #
-# 1009 | =               | URL /v1/api/notifications/stripe            #
-#      |                 | return_url                                  #
-# -------------------------------------------------------------------- #
-# 1101 | https://        | URL /v1/api/notifications/stripe            #
-#      |                 | return_url, url                             #
-# -------------------------------------------------------------------- #
-# 1100 | http://         | URL /v1/api/notifications/stripe            #
-#      |                 | return_url                                  #
-# -------------------------------------------------------------------- #
-# 1314 | `               | URL /v1/api/notifications/stripe            #
-#      |                 | return_url                                  #
-# -------------------------------------------------------------------- #
+##################################################################################
+# DOCUMENTATION                                                                  #
+# https://github.com/nbs-system/naxsi/wiki/whitelists-bnf                        #
+# https://github.com/nbs-system/naxsi/blob/master/naxsi_config/naxsi_core.rules  #
+# https://github.com/nbs-system/naxsi/wiki                                       #
+##################################################################################
 
 # SQL keywords = select|union|update|delete|insert|table|from|ascii|hex|unhex|drop
-
 
 # naxsi doesn't seem to like WorldPay's notification Content-Type.
 BasicRule wl:11;
@@ -68,13 +17,13 @@ BasicRule wl:1205 "mz:BODY";
 # SQL key words, 0x, \\ in cookie
 BasicRule wl:1000,1002,1007 "mz:$HEADERS_VAR:cookie";
 
-#SMARTPAY NOTIFICATIONS - reason field in smartpay notifications can contain ()
+# SMARTPAY NOTIFICATIONS - reason field in smartpay notifications can contain ()
 BasicRule wl:1010,1011 "mz:$URL:/v1/api/notifications/smartpay|$BODY_VAR_X:^reason$";
 
-#EPDQ NOTIFICATIONS - cn field in epdq notifications can contain () and '
+# EPDQ NOTIFICATIONS - cn field in epdq notifications can contain () and '
 BasicRule wl:1010,1011,1013,1015 "mz:$URL:/v1/api/notifications/epdq|$BODY_VAR_X:^cn$";
 
-#STRIPE NOTIFICATIONS - return_url field in stripe notifications contains https://
+# STRIPE NOTIFICATIONS - return_url field in stripe notifications contains https://
 BasicRule wl:1009,1101,1100 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^return_url$";
 BasicRule wl:1009,1101,1100 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^url$";
 BasicRule wl:1010,1314 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^seller_message$";
