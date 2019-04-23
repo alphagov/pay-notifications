@@ -21,7 +21,7 @@ BasicRule wl:1000,1002,1007 "mz:$HEADERS_VAR:cookie";
 BasicRule wl:1009,1010,1011,1013 "mz:$URL:/v1/api/notifications/smartpay|BODY";
 
 # EPDQ NOTIFICATIONS - cn field in epdq notifications can contain () and '
-BasicRule wl:1010,1011,1013,1015 "mz:$URL:/v1/api/notifications/epdq|$BODY_VAR_X:^cn$";
+BasicRule wl:1010,1011,1013,1015,1314 "mz:$URL:/v1/api/notifications/epdq|$BODY_VAR_X:^cn$";
 
 # STRIPE NOTIFICATIONS - return_url field in stripe notifications contains https://
 BasicRule wl:1000,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1013,1015,1016,1017,1100,1101,1200,1205,1302,1303,1310,1311,1312,1314,1315,1400,1401 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:url$"; # applies to any JSON field which ends with `url` suffix
