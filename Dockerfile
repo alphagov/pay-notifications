@@ -1,7 +1,7 @@
 FROM govukpay/alpine:latest-master
 
 ENV NGINX_VERSION=1.13.3 \
-    NAXSI_VERSION=0.55.3
+    NAXSI_VERSION=0.56
 
 USER root
 
