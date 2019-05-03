@@ -18,7 +18,7 @@ BasicRule wl:1205 "mz:BODY";
 BasicRule wl:1000,1002,1007 "mz:$HEADERS_VAR:cookie";
 
 # SMARTPAY NOTIFICATIONS - whitelist rules we have blocked on for all body fields
-BasicRule wl:1009,1010,1011,1013 "mz:$URL:/v1/api/notifications/smartpay|BODY";
+BasicRule wl:1001,1009,1010,1011,1013 "mz:$URL:/v1/api/notifications/smartpay|BODY";
 
 # EPDQ NOTIFICATIONS - cn field in epdq notifications can contain () and '
 BasicRule wl:1010,1011,1013,1015,1314 "mz:$URL:/v1/api/notifications/epdq|$BODY_VAR_X:^cn$";
