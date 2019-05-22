@@ -1,4 +1,5 @@
-FROM govukpay/alpine:latest-master
+# govukpay/alpine:latest-master
+FROM govukpay/alpine@sha256:1200b7cfe9636e435f100b0f19e8bcdaccea4d5c1a073776ebe95f869705d57c
 
 ENV NGINX_VERSION=1.13.3 \
     NAXSI_VERSION=0.56
