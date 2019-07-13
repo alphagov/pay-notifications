@@ -3,6 +3,7 @@ FROM alpine@sha256:6a92cd1fcdc8d8cdec60f33dda4db2cb1fcdcacf3410a8e05b3741f44a9b5
 USER root
 
 RUN ["apk", "--no-cache", "upgrade"]
+RUN ["apk", "--no-cache", "add", "tini"]
 RUN ["apk", "--no-cache", "--repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing", "add", "nginx-naxsi", "nginx-naxsi-mod-http-naxsi", "nginx-naxsi-mod-http-xslt-filter", "nginx-naxsi-mod-http-geoip"]
 
 RUN ["install", "-d", "/etc/nginx/ssl"]
@@ -24,5 +25,7 @@ COPY src/files/nginx_conf /etc/nginx/nginx.conf
 EXPOSE 443
 
 WORKDIR /app
+
+ENTRYPOINT ["tini", "--"]
 
 CMD ["./docker-startup.sh"]
