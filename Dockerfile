@@ -1,7 +1,7 @@
 # alpine:3.9
-FROM alpine@sha256:769fddc7cc2f0a1c35abb2f91432e8beecf83916c421420e6a6da9f8975464b6
+FROM alpine:3.9
 
-ENV NGINX_VERSION=1.13.3 \
+ENV NGINX_VERSION=1.16.0 \
     NAXSI_VERSION=0.56
 
 USER root
@@ -12,8 +12,7 @@ RUN addgroup -S nginx \
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && apk add pcre \
     && apk add --no-cache --virtual .build-deps \
-        gcc \
-        libc-dev \
+        build-base \
         make \
         openssl \
         openssl-dev \
