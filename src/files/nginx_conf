@@ -14,7 +14,7 @@ http {
   default_type  application/octet-stream;
   charset_types text/css text/plain text/vnd.wap.wml application/javascript application/json application/rss+xml application/xml;
 
-  log_format main '$server_name:$server_port $http_x_request_id $http_x_forwarded_for $remote_addr $remote_user [$time_local] '
+  log_format main 'webhook-signature=$http_webhook_signature $server_name:$server_port $http_x_request_id $http_x_forwarded_for $remote_addr $remote_user [$time_local] '
               '"$request" $status $body_bytes_sent $request_time $http_x_forwarded_proto "$http_referer" '
               '"$http_user_agent"';
 
