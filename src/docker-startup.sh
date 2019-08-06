@@ -21,4 +21,4 @@ if [ ! -f /etc/keys/crt ]; then
   rm -rf "$dir"
 fi
 
-nginx -g "daemon off;"
+exec nginx -g "daemon off;"
