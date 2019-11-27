@@ -1,6 +1,8 @@
 server {
   listen 8080;
 
+  resolver DNS_RESOLVER_IP;
+
   # Use variable to force dynamic DNS resolution as per
   # https://tenzer.dk/nginx-with-dynamic-upstreams/.
   # Without this nginx caches DNS lookups on startup and never updates

@@ -8,10 +8,8 @@ RUN ["apk", "--no-cache", "--repository=http://dl-cdn.alpinelinux.org/alpine/edg
 
 RUN ["install", "-d", "/etc/nginx/ssl"]
 
-RUN apk add openssl \
-    && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
-    # forward request and error logs to docker log collector
-    && ln -sf /dev/stdout /var/log/nginx/access.log \
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
 RUN ["install", "-d", "/app"]
@@ -21,8 +19,6 @@ ADD src/files/authorized_ip /etc/nginx/
 ADD src/files/*.conf /etc/nginx/conf.d/
 ADD src/files/sites.nginx /etc/nginx/conf.d/notifications.conf
 COPY src/files/nginx_conf /etc/nginx/nginx.conf
-
-EXPOSE 443
 
 WORKDIR /app
 
