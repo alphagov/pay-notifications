@@ -6,6 +6,7 @@
 ##################################################################################
 
 BasicRule wl:1013,1015 "mz:$URL:/v1/webhooks/gocardless|$BODY_VAR:description";
+BasicRule wl:1000 "mz:$URL:/v1/webhooks/gocardless|$BODY_VAR:action";
 
 # can get 0x in GoCardless resource IDs
 BasicRule wl:1002 "mz:$URL:/v1/webhooks/gocardless|BODY";
