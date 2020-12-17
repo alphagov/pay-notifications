@@ -57,21 +57,4 @@ server {
     proxy_connect_timeout 15s;
     proxy_buffering off;
   }
-
-  location /v1/webhooks/gocardless {
-    set $http_x_request_id $request_id;
-
-    include /etc/nginx/naxsi.rules;
-    include /etc/nginx/naxsi_dd_connector_whitelist.rules;
-
-    # Ensure that path part of url is propagated to upstream when
-    # using proxy_pass with variable
-    rewrite ^/(.*)$ /$1 break;
-    proxy_pass $directdebit_connector_upstream;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Request-Id $http_x_request_id;
-    proxy_connect_timeout 15s;
-    proxy_buffering off;
-  }
 }
