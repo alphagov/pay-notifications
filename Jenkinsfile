@@ -48,14 +48,6 @@ pipeline {
         }
       }
     }
-    stage('Deploy') {
-      when {
-        branch 'master'
-      }
-      steps {
-        deployEcs("notifications")
-      }
-    }
     //stage('Smoke Tests') {
     //  when {
     //    branch 'master'
