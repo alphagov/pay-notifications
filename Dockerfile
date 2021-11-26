@@ -1,15 +1,12 @@
-FROM alpine:3.12.0@sha256:a15790640a6690aa1730c38cf0a440e2aa44aaca9b0e8931a9f2b0d7cc90fd65
+FROM alpine:3.14.3@sha256:5e604d3358ab7b6b734402ce2e19ddd822a354dc14843f34d36c603521dbb4f9
 
 USER root
 
-RUN ["apk", "--no-cache", "upgrade"]
-RUN ["apk", "--no-cache", "add", "tini"]
-RUN ["apk", "--no-cache", "--repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing", "add", "nginx-naxsi", "nginx-naxsi-mod-http-naxsi", "nginx-naxsi-mod-http-xslt-filter", "nginx-naxsi-mod-http-geoip"]
+RUN ["apk", "--no-cache", "add", "openssl", "tini", "nginx-mod-http-naxsi=1.20.2-r0", "nginx-mod-http-xslt-filter=1.20.2-r0", "nginx-mod-http-geoip=1.20.2-r0"]
 
 RUN ["install", "-d", "/etc/nginx/ssl"]
 
-RUN apk add openssl \
-    && openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
+RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
     # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
