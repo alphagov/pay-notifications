@@ -2,7 +2,7 @@ FROM alpine:3.14.3@sha256:5e604d3358ab7b6b734402ce2e19ddd822a354dc14843f34d36c60
 
 USER root
 
-RUN ["apk", "--no-cache", "add", "openssl", "tini", "nginx-mod-http-naxsi=1.20.2-r0", "nginx-mod-http-xslt-filter=1.20.2-r0", "nginx-mod-http-geoip=1.20.2-r0"]
+RUN ["apk", "--no-cache", "add", "openssl", "tini", "nginx=1.20.2-r0", "nginx-mod-http-naxsi=1.20.2-r0", "nginx-mod-http-xslt-filter=1.20.2-r0", "nginx-mod-http-geoip=1.20.2-r0"]
 
 RUN ["install", "-d", "/etc/nginx/ssl"]
 
@@ -12,11 +12,11 @@ RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
 RUN ["install", "-d", "/app"]
-ADD src/docker-startup.sh /app
-ADD src/files/naxsi*.rules /etc/nginx/
-ADD src/files/authorized_ip /etc/nginx/
-ADD src/files/*.conf /etc/nginx/conf.d/
-ADD src/files/sites.nginx /etc/nginx/conf.d/notifications.conf
+COPY src/docker-startup.sh /app
+COPY src/files/naxsi*.rules /etc/nginx/
+COPY src/files/authorized_ip /etc/nginx/
+COPY src/files/*.conf /etc/nginx/conf.d/
+COPY src/files/sites.nginx /etc/nginx/conf.d/notifications.conf
 COPY src/files/nginx_conf /etc/nginx/nginx.conf
 
 EXPOSE 443

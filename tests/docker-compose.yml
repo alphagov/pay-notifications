@@ -1,0 +1,15 @@
+services:
+  notifications:
+    build: "../."
+    expose:
+      - 443
+    environment:
+      DD_CONNECTOR_URL: "https://localhost:5000"
+      CONNECTOR_URL: "https://localhost:5001"
+  tester:
+    image: node:16-slim
+    depends_on:
+      - "notifications"
+    entrypoint: ["node", "/app/notifications-test.js"]
+    volumes:
+      - "./notifications-test.js:/app/notifications-test.js"
