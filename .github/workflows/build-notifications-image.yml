@@ -20,7 +20,12 @@ jobs:
         with:
           fetch-depth: '0'
 
+      - name: Build Docker Compose Stack...
+        run: |
+          cd ${GITHUB_WORKSPACE}/tests
+          docker-compose build
+
       - name: Run Notifications Image Test
         run: |
           cd ${GITHUB_WORKSPACE}/tests
-          ./docker-test.sh
+          docker-compose up --abort-on-container-exit --exit-code-from tester tester
