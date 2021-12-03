@@ -4,7 +4,7 @@ services:
     expose:
       - 5001
     environment:
-      HTTPS_PORT: 5001
+      HTTP_PORT: 5001
     entrypoint: ["node", "/app/mock-connector-server.js"]
     volumes:
       - "./mock-connector-server.js:/app/mock-connector-server.js"
@@ -13,7 +13,8 @@ services:
     expose:
       - 443
     environment:
-      CONNECTOR_URL: "https://connector:5001"
+      CONNECTOR_URL: "http://connector:5001"
+      NGINX_RESOLVER: "127.0.0.11"
     depends_on:
       - "connector"
   tester:

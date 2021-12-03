@@ -1,4 +1,4 @@
-const https = require('https')
+const http = require('http')
 
 const basicListener = function (req, res) {
     console.log(`Req: ${req.url}`)
@@ -16,5 +16,5 @@ const basicListener = function (req, res) {
     res.end('Not found')
 }
 
-const server = https.createServer(basicListener)
-server.listen(process.env["HTTPS_PORT"] ?? 5001, "0.0.0.0")
+const server = http.createServer(basicListener)
+server.listen(process.env["HTTP_PORT"] ?? 5001, "0.0.0.0")

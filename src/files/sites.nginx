@@ -2,7 +2,7 @@ server {
   listen 443 ssl;
 
   # This should be the VPC network range +2
-  resolver 172.18.0.2;
+  resolver NGINX_RESOLVER;
 
   # Use variable to force dynamic DNS resolution as per
   # https://tenzer.dk/nginx-with-dynamic-upstreams/.

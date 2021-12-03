@@ -6,8 +6,10 @@ SITE_CONFIG="/etc/nginx/conf.d/notifications.conf"
 NGINX_CONFIG="/etc/nginx/nginx.conf"
 
 CONNECTOR_URL=${CONNECTOR_URL:-"https://localhost:5001"}
+NGINX_RESOLVER=${NGINX_RESOLVER:-"172.18.0.2"}
 
 sed -i "s,CONNECTOR_URL,${CONNECTOR_URL},g" $SITE_CONFIG
+sed -i "s,NGINX_RESOLVER,${NGINX_RESOLVER},g" $SITE_CONFIG
 
 # Generate a selfsigned key and certificate if we don't have one
 if [ ! -f /etc/keys/crt ]; then
