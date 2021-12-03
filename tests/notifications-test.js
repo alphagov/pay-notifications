@@ -8,7 +8,7 @@ const testsToRun = [
     { path: '/healthcheck', expectedStatus: 200 },
     { path: '/request-denied', expectedStatus: 400 },
     { path: '/v1/api/notifications/epdq', expectedStatus: 200 },
-    { path: '/v1/api/notifications/smartpay', expectedStatus: 200 },
+    { path: '/v1/api/notifications/smartpay', expectedStatus: 418 },
     { path: '/v1/api/notifications/stripe', expectedStatus: 200 },
     { path: '/v1/api/notifications/worldpay', expectedStatus: 200 },
     { path: '/invalid/path', expectedStatus: 404 },
