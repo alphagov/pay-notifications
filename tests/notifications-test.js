@@ -28,7 +28,7 @@ async function testNotificationPath(path, expectedStatus = 200) {
         const notificationReq = https.request(httpConfig)
 
         notificationReq.on("response", response => {
-            if(response.statusCode == expectedStatus) {
+            if (response.statusCode == expectedStatus) {
                 resolve(`PASS: \x1b[36m${path}\x1b[0m returned expected \x1b[36m${expectedStatus}\x1b[0m Response`)
             } else {
                 reject(`FAIL: \x1b[36m${path}\x1b[0m returned status \x1b[31m${response.statusCode}\x1b[0m, expected \x1b[36m${expectedStatus}\x1b[0m`)
@@ -47,7 +47,7 @@ async function testNotificationPath(path, expectedStatus = 200) {
 async function runTests() {
     const failedTests = []
 
-    for(const thisTest of testsToRun) {
+    for (const thisTest of testsToRun) {
         try {
             const thisTestResult = await testNotificationPath(thisTest.path, thisTest.expectedStatus)
             console.log(thisTestResult)
@@ -63,11 +63,11 @@ async function runTests() {
 async function start() {
     console.log(`Starting Notification Container Tests...`)
     const failedTests = await runTests()
-    if(failedTests.length > 0) {
+    if (failedTests.length > 0) {
         console.error(`There were ${failedTests.length} failed tests:`)
         console.group()
         failedTests.forEach((thisFailedTest, thisFailedTestNum) => {
-            console.error(`#${thisFailedTestNum+1}: ${thisFailedTest}`)
+            console.error(`#${thisFailedTestNum + 1}: ${thisFailedTest}`)
         })
         console.groupEnd()
         console.error('\x1b[31m%s\x1b[0m', "One or more tests failed.")

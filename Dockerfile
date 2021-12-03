@@ -6,7 +6,7 @@ RUN ["apk", "--no-cache", "add", "openssl", "tini", "nginx=1.20.2-r0", "nginx-mo
 
 RUN ["install", "-d", "/etc/nginx/ssl"]
 
-RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 \
+RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 &>/dev/null \
     # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
