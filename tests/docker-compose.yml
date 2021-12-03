@@ -1,14 +1,25 @@
 services:
+  connector:
+    image: node:16-slim
+    expose:
+      - 5001
+    environment:
+      HTTPS_PORT: 5001
+    entrypoint: ["node", "/app/mock-connector-server.js"]
+    volumes:
+      - "./mock-connector-server.js:/app/mock-connector-server.js"
   notifications:
     build: "../."
     expose:
       - 443
     environment:
-      DD_CONNECTOR_URL: "https://localhost:5000"
-      CONNECTOR_URL: "https://localhost:5001"
+      CONNECTOR_URL: "https://connector:5001"
+    depends_on:
+      - "connector"
   tester:
     image: node:16-slim
     depends_on:
+      - "connector"
       - "notifications"
     entrypoint: ["node", "/app/notifications-test.js"]
     volumes:

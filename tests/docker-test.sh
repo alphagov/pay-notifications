@@ -4,7 +4,7 @@ echo "Running tests"
 
 echo "Starting containers"
 
-if docker-compose up --build --exit-code-from tester; then
+if docker-compose up --build --force-recreate --exit-code-from tester; then
   echo "Pass"
 else
   echo "Fail"

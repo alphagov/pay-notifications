@@ -3,33 +3,70 @@
 // on the /healthcheck endpoint with an HTTP 200 response.
 
 const https = require('https')
-const { exit } = require('process')
 
-const healthcheckOptions = {
-    hostname: 'notifications',
-    port: 443,
-    method: 'GET',
-    path: '/healthcheck',
-    rejectUnauthorized: false,
-    requestCert: true,
-    agent: false
-}
-
-async function testHealthcheck() {
-    const healthcheckReq = https.request(healthcheckOptions, response => {
-        console.log(`statusCode: ${response.statusCode}`)
-        if (response.statusCode == "200") {
-            console.log("Healthcheck OK")
-            exit(0)
+async function testNotificationPath(path, expectedStatus = 200) {
+    return new Promise((resolve, reject) => {
+        const httpConfig = {
+            hostname: 'notifications',
+            port: 443,
+            path: path,
+            rejectUnauthorized: false,
+            requestCert: true,
+            agent: false
         }
-    })
 
-    healthcheckReq.on('error', error => {
+        const notificationReq = https.request(httpConfig)
+
+        notificationReq.on("response", response => {
+            if(response.statusCode == expectedStatus) {
+                resolve(`PASS: ${path} returned expected ${expectedStatus} Response`)
+            } else {
+                reject(`FAIL: ${path} returned status ${response.statusCode}, expected ${expectedStatus}`)
+            }
+        })
+
+        notificationReq.end()
+
+        notificationReq.on("error", error => {
+            reject(error)
+        })
+
+    }).catch(error => {
         console.error(error)
-        exit(1)
     })
-
-    healthcheckReq.end()
 }
 
-testHealthcheck()
+async function runTests() {
+    const failedTests = []
+    const testsToRun = [
+        testNotificationPath('/healthcheck'),
+        testNotificationPath('/request-denied', 400),
+        testNotificationPath('/v1/api/notifications/worldpay'),
+        testNotificationPath('/v1/api/notifications/epdq'),
+        testNotificationPath('/v1/api/notifications/stripe'),
+        testNotificationPath('/invalid/path', 404)
+    ]
+
+    for(const thisTest of testsToRun) {
+        try {
+            const thisTestResult = await thisTest
+            console.log(thisTestResult)
+        } catch (error) {
+            console.error(error)
+            failedTests.push(error)
+        }
+    }
+
+    return failedTests
+}
+
+async function start() {
+    const failedTests = await runTests()
+    if(failedTests.length > 0) {
+        console.error(`There were ${failedTests.length} failed tests`)
+        console.error(failedTests)
+        process.exit(1)
+    }
+}
+
+start()

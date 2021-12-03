@@ -9,7 +9,6 @@ server {
   # Without this nginx caches DNS lookups on startup and never updates
   # them.
   set $connector_upstream CONNECTOR_URL;
-  set $directdebit_connector_upstream DD_CONNECTOR_URL;
 
   server_tokens off;
 
