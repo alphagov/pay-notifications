@@ -28,4 +28,4 @@ jobs:
       - name: Run Notifications Image Test
         run: |
           cd ${GITHUB_WORKSPACE}/tests
-          docker-compose up --abort-on-container-exit --exit-code-from tester
+          docker-compose up --abort-on-container-exit --exit-code-from tester tester
