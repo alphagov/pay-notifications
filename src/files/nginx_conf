@@ -28,13 +28,13 @@ http {
 	default_type application/octet-stream;
 	charset_types text/css text/plain text/vnd.wap.wml application/javascript application/json application/rss+xml application/xml;
 
-	# Default access log.
-	access_log /var/log/nginx/access.log main;
-
 	# Specifies the main log format.
 	log_format main '$server_name:$server_port $http_x_request_id $http_x_forwarded_for $remote_addr $remote_user [$time_local] '
 			'"$request" $status $body_bytes_sent $request_time $http_x_forwarded_proto "$http_referer" '
 			'"$http_user_agent"';
+
+	# Default access log.
+	access_log /var/log/nginx/access.log main;
 
 	# Timeout for keep-alive connections. Server will close connections after
 	# this time.
