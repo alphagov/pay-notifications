@@ -11,6 +11,10 @@ const testsToRun = [
     { path: '/v1/api/notifications/smartpay', expectedStatus: 200 },
     { path: '/v1/api/notifications/stripe', expectedStatus: 200 },
     { path: '/v1/api/notifications/worldpay', expectedStatus: 200 },
+    { path: '/v1/api/notifications/worldpay?a=<>', expectedStatus: 400 },
+    { path: '/v1/api/notifications/epdq?q="><script>alert(0)</script>', expectedStatus: 400 },
+    { path: '/v1/api/notifications/worldpay?a=SELECT%20FROM%20users%3B%20%26%26', expectedStatus: 400 },
+    { path: '/v1/api/notifications/worldpay?a=SELECT%20FROM%20users;&&', expectedStatus: 400 },
     { path: '/invalid/path', expectedStatus: 404 },
 ]
 

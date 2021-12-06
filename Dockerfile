@@ -15,7 +15,6 @@ RUN ["install", "-d", "/app"]
 COPY src/docker-startup.sh /app
 COPY src/files/naxsi*.rules /etc/nginx/
 COPY src/files/authorized_ip /etc/nginx/
-COPY src/files/*.conf /etc/nginx/conf.d/
 COPY src/files/sites.nginx /etc/nginx/conf.d/notifications.conf
 COPY src/files/nginx_conf /etc/nginx/nginx.conf
 
