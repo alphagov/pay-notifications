@@ -2,14 +2,13 @@ server {
   listen 443 ssl;
 
   # This should be the VPC network range +2
-  resolver 172.18.0.2;
+  resolver NGINX_RESOLVER;
 
   # Use variable to force dynamic DNS resolution as per
   # https://tenzer.dk/nginx-with-dynamic-upstreams/.
   # Without this nginx caches DNS lookups on startup and never updates
   # them.
   set $connector_upstream CONNECTOR_URL;
-  set $directdebit_connector_upstream DD_CONNECTOR_URL;
 
   server_tokens off;
 
@@ -54,6 +53,9 @@ server {
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Request-Id $http_x_request_id;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+
     proxy_connect_timeout 15s;
     proxy_buffering off;
   }

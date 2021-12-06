@@ -1,0 +1,27 @@
+services:
+  connector:
+    image: node:16-slim
+    expose:
+      - 5001
+    environment:
+      HTTP_PORT: 5001
+    entrypoint: ["node", "/app/mock-connector-server.js"]
+    volumes:
+      - "./mock-connector-server.js:/app/mock-connector-server.js"
+  notifications:
+    build: "../."
+    expose:
+      - 443
+    environment:
+      CONNECTOR_URL: "http://connector:5001"
+      NGINX_RESOLVER: "127.0.0.11"
+    depends_on:
+      - "connector"
+  tester:
+    image: node:16-slim
+    depends_on:
+      - "connector"
+      - "notifications"
+    entrypoint: ["node", "/app/notifications-test.js"]
+    volumes:
+      - "./notifications-test.js:/app/notifications-test.js"
