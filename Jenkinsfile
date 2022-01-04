@@ -59,14 +59,6 @@ pipeline {
             tagDeployment("notifications")
           }
         }
-        stage('Trigger Deploy Notification') {
-          when {
-            branch 'master'
-          }
-          steps {
-            triggerGraphiteDeployEvent("notifications")
-          }
-        }
       }
     }
   }
