@@ -1,9 +1,5 @@
 name: Build Notifications Docker Image
 
-env:
-  IMAGE_NAME: notifications
-  AWS_REGION: eu-west-1
-
 on:
   push:
     branches:

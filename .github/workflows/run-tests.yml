@@ -1,9 +1,5 @@
 name: Test Notifications Docker Image
 
-env:
-  IMAGE_NAME: notifications
-  AWS_REGION: eu-west-1
-
 on:
   pull_request:
   workflow_call:
