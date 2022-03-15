@@ -1,4 +1,4 @@
-name: Build Notifications Docker Image
+name: Post Merge
 
 on:
   push:
