@@ -1,0 +1,19 @@
+name: Post Merge
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency: notifications-post-merge
+
+jobs:
+  test:
+    uses: ./.github/workflows/run-tests.yml
+
+  release:
+    needs: test
+    name: Release
+    permissions:
+      contents: write
+    uses: alphagov/pay-ci/.github/workflows/_create-alpha-release-tag.yml@master

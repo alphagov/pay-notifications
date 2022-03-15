@@ -1,14 +1,8 @@
-name: Build Notifications Docker Image
-
-env:
-  IMAGE_NAME: notifications
-  AWS_REGION: eu-west-1
+name: Test Notifications Docker Image
 
 on:
   pull_request:
-  push:
-    branches:
-      - master
+  workflow_call:
 
 jobs:
   test:
@@ -29,11 +23,3 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/tests
           docker-compose up --abort-on-container-exit --exit-code-from tester tester
-
-  release:
-    if: github.ref == 'refs/heads/master'
-    needs: test
-    name: Release
-    permissions:
-      contents: write
-    uses: alphagov/pay-ci/.github/workflows/_create-alpha-release-tag.yml@master
