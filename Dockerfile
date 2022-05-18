@@ -2,7 +2,7 @@ FROM alpine:3.15.4@sha256:4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5ac
 
 USER root
 
-RUN ["apk", "--no-cache", "add", "openssl", "tini", "nginx=1.20.2-r0", "nginx-mod-http-naxsi=1.20.2-r0", "nginx-mod-http-xslt-filter=1.20.2-r0", "nginx-mod-http-geoip=1.20.2-r0"]
+RUN ["apk", "--no-cache", "add", "openssl", "tini", "nginx=1.20.2-r1", "nginx-mod-http-naxsi=1.20.2-r1", "nginx-mod-http-xslt-filter=1.20.2-r1", "nginx-mod-http-geoip=1.20.2-r1"]
 
 RUN ["install", "-d", "/etc/nginx/ssl"]
 
