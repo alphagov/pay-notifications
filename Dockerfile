@@ -1,10 +1,9 @@
 FROM alpine:3.18.0@sha256:02bb6f428431fbc2809c5d1b41eab5a68350194fb508869a33cb1af4444c9b11
 
 USER root
-
-RUN ["apk", "--no-cache", "add", "openssl", "tini", "nginx=1.24.0-r3", "nginx-mod-http-naxsi=1.24.0-r3", "nginx-mod-http-xslt-filter=1.24.0-r3", "nginx-mod-http-geoip=1.24.0-r3"]
-
-RUN ["install", "-d", "/etc/nginx/ssl"]
+RUN apk --no-cache upgrade \
+    && apk --no-cache add openssl tini nginx=1.24.0-r3 nginx-mod-http-naxsi=1.24.0-r3 nginx-mod-http-xslt-filter=1.24.0-r3 nginx-mod-http-geoip=1.24.0-r3 \
+    && install -d /etc/nginx/ssl
 
 RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 &>/dev/null \
     # forward request and error logs to docker log collector
