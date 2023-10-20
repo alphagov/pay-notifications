@@ -26,6 +26,12 @@ server {
   ssl_certificate /etc/keys/crt;
   ssl_certificate_key /etc/keys/key;
 
+  location ~ ^/$ {
+    return 301 https://payments.service.gov.uk/;
+  }
+
+  error_page 404 https://gov.uk/404;
+
   # Health check url
   location /healthcheck {
     set $http_x_request_id $request_id;

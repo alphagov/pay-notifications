@@ -5,6 +5,7 @@ const https = require('https')
 
 // This is the list of paths to test and the expected HTTP Status for each...
 const testsToRun = [
+    { path: '/', expectedStatus: 301 },
     { path: '/healthcheck', expectedStatus: 200 },
     { path: '/request-denied', expectedStatus: 400 },
     { path: '/v1/api/notifications/epdq', expectedStatus: 200 },
@@ -15,7 +16,7 @@ const testsToRun = [
     { path: '/v1/api/notifications/epdq?q="><script>alert(0)</script>', expectedStatus: 400 },
     { path: '/v1/api/notifications/worldpay?a=SELECT%20FROM%20users%3B%20%26%26', expectedStatus: 400 },
     { path: '/v1/api/notifications/worldpay?a=SELECT%20FROM%20users;&&', expectedStatus: 400 },
-    { path: '/invalid/path', expectedStatus: 404 },
+    { path: '/invalid/path', expectedStatus: 302 },
 ]
 
 async function testNotificationPath(path, expectedStatus = 200) {
