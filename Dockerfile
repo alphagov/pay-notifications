@@ -1,4 +1,4 @@
-FROM alpine:3.18.4@sha256:eece025e432126ce23f223450a0326fbebde39cdf496a85d8c016293fc851978
+FROM alpine:3.19.0@sha256:51b67269f354137895d43f3b3d810bfacd3945438e94dc5ac55fdac340352f48
 
 RUN apk -U upgrade --available
 
@@ -7,10 +7,10 @@ USER root
 RUN apk --no-cache add \
     openssl \
     tini \
-    nginx=1.24.0-r7 \
-    nginx-mod-http-naxsi=1.24.0-r7 \
-    nginx-mod-http-xslt-filter=1.24.0-r7 \
-    nginx-mod-http-geoip=1.24.0-r7
+    nginx=1.24.0-r14 \
+    nginx-mod-http-naxsi=1.24.0-r14 \
+    nginx-mod-http-xslt-filter=1.24.0-r14 \
+    nginx-mod-http-geoip=1.24.0-r14
 
 RUN install -d /etc/nginx/ssl
 
