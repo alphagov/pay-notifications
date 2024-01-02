@@ -30,3 +30,6 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/tests
           docker-compose up --abort-on-container-exit --exit-code-from tester tester
+
+  check-docker-base-images-are-manifests:
+    uses: alphagov/pay-ci/.github/workflows/_validate_docker_image_is_manifest.yml@master
