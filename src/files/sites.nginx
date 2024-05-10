@@ -32,6 +32,10 @@ server {
 
   error_page 404 https://gov.uk/404;
 
+  location /index.html {
+    return 404;
+  }
+
   # Health check url
   location /healthcheck {
     set $http_x_request_id $request_id;
