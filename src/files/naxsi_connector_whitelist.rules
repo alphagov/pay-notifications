@@ -17,12 +17,14 @@ BasicRule wl:1205 "mz:BODY";
 # SQL key words, 0x, \\ in cookie
 BasicRule wl:1000,1002,1007 "mz:$HEADERS_VAR:cookie";
 
-# STRIPE NOTIFICATIONS - return_url field in stripe notifications contains https://
+# STRIPE NOTIFICATIONS
+
+# return_url field in Stripe notifications contains https://
 BasicRule wl:1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1013,1015,1016,1017,1100,1101,1200,1205,1302,1303,1310,1311,1312,1314,1315,1400,1401 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:url$"; # applies to any JSON field which ends with `url` suffix
 BasicRule wl:1002 "mz:$URL:/v1/api/notifications/stripe|BODY"; # do not apply possible hex encoding check to any field
 
-# Whitelist rules for common characters for all body fields
-BasicRule wl:1000,1001,1005,1008,1009,1010,1011,1013,1015,1016,1101,1200,1310,1311,1312,1314,1315 "mz:$URL:/v1/api/notifications/stripe|BODY";
+# Allow rules for common characters for all Stripe body fields
+BasicRule wl:1000,1001,1003,1004,1005,1008,1009,1010,1011,1013,1015,1016,1101,1200,1310,1311,1312,1314,1315 "mz:$URL:/v1/api/notifications/stripe|BODY";
 
-# Whitelist all characters we allow for descriptions in public-api for description field
+# Allow all characters we allow for descriptions in public-api for Stripe description field
 BasicRule wl:1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1013,1015,1016,1017,1100,1101,1200,1205,1302,1303,1310,1311,1312,1314,1315,1400,1401 "mz:$URL:/v1/api/notifications/stripe|$BODY_VAR_X:^description";
