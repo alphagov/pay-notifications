@@ -7,10 +7,10 @@ USER root
 RUN apk --no-cache add \
     openssl \
     tini \
-    nginx=1.26.0-r1 \
-    nginx-mod-http-naxsi=1.26.0-r1 \
-    nginx-mod-http-xslt-filter=1.26.0-r1 \
-    nginx-mod-http-geoip=1.26.0-r1
+    nginx=1.26.0-r2 \
+    nginx-mod-http-naxsi=1.26.0-r2 \
+    nginx-mod-http-xslt-filter=1.26.0-r2 \
+    nginx-mod-http-geoip=1.26.0-r2
 
 RUN install -d /etc/nginx/ssl
 
