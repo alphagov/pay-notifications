@@ -29,12 +29,12 @@ then
   # BUCKET govuk-pay-naxsi-rules-eu-west-1-test
   # FILE   test-12-notifications-fargate_naxsi.rules
   BUCKET="govuk-pay-naxsi-rules-${AWS_REGION}-${ENVIRONMENT%%-*}"
-  FILE="${ENVIRONMENT}-notifications-fargate_naxsi.rules"
+  FILE="${ENVIRONMENT}-notifications_naxsi.rules"
 
   for try in 1 2 3 4 5
   do
     echo "copying ${AWS_REGION}.amazonaws.com/${BUCKET}/${FILE} to ${NAXSI_CONFIG} (${try}/5)"
-    if aws s3 cp --region "${AWS_REGION}" --endpoint-url https://s3-"${AWS_REGION}".amazonaws.com "${BUCKET}/${FILE}" "${NAXSI_CONFIG}"
+    if aws s3 cp --region "${AWS_REGION}" --endpoint-url https://s3-"${AWS_REGION}".amazonaws.com "s3://${BUCKET}/${FILE}" "${NAXSI_CONFIG}"
     then
       COMPLETE=true
       break

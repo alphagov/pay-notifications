@@ -6,6 +6,7 @@ USER root
 
 RUN apk --no-cache add \
     openssl \
+    aws-cli \
     tini \
     nginx=1.26.1-r0 \
     nginx-mod-http-naxsi=1.26.1-r0 \
