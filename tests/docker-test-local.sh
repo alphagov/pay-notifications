@@ -2,6 +2,11 @@
 # This script is used to run the test stack (and tests) on your local dev environment.
 # Refer to .github/workflows to update the GitHub Actions
 
+pwd
+ls ..
+ls ../..
+ls ../../..
+
 echo "Building Docker Compose Stack for Notifications Test..."
 docker-compose build
 
