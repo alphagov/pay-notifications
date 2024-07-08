@@ -54,7 +54,6 @@ server {
     set $http_x_request_id $request_id;
 
     include /etc/nginx/naxsi.rules;
-    include /etc/nginx/naxsi_connector_whitelist.rules;
 
     # Ensure that path part of url is propagated to upstream when
     # using proxy_pass with variable
