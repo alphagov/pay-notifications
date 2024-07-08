@@ -17,6 +17,8 @@ services:
       NGINX_RESOLVER: "127.0.0.11"
     depends_on:
       - "connector"
+    volumes:
+      - "../../pay-infra/provisioning/terraform/modules/pay_notifications/files/notifications.naxsi:/etc/nginx/naxsi.rules"
   tester:
     image: node:16-slim
     depends_on:
