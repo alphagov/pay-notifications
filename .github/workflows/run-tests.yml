@@ -28,6 +28,10 @@ jobs:
 
       - name: Build Docker Compose Stack...
         run: |
+          pwd
+          ls ..
+          ls ../..
+          ls ../../..
           cd ${GITHUB_WORKSPACE}/tests
           docker-compose build
 
