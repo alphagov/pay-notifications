@@ -1,3 +1,5 @@
+# This is a mock rules file which removes all exceptions and special-cases
+
 SecRulesEnabled;
 DeniedUrl "/request-denied";
 

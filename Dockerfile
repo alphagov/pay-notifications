@@ -6,6 +6,7 @@ USER root
 
 RUN apk --no-cache add \
     openssl \
+    aws-cli \
     tini \
     nginx=1.26.1-r0 \
     nginx-mod-http-naxsi=1.26.1-r0 \
@@ -21,10 +22,11 @@ RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 &>/dev/null \
 
 RUN install -d /app
 COPY src/docker-startup.sh /app
-COPY src/files/naxsi*.rules /etc/nginx/
 COPY src/files/authorized_ip /etc/nginx/
 COPY src/files/sites.nginx /etc/nginx/conf.d/notifications.conf
 COPY src/files/nginx_conf /etc/nginx/nginx.conf
+# For testing and development -- overwritten by real rules when deployed
+COPY tests/rules-stub.naxsi /etc/nginx/naxsi.rules
 
 EXPOSE 443
 
