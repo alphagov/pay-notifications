@@ -1,0 +1,11 @@
+# This is a mock rules file which removes all exceptions and special-cases
+
+SecRulesEnabled;
+DeniedUrl "/request-denied";
+
+## check rules
+CheckRule "$SQL >= 8" BLOCK;
+CheckRule "$RFI >= 8" BLOCK;
+CheckRule "$TRAVERSAL >= 4" BLOCK;
+CheckRule "$EVADE >= 4" BLOCK;
+CheckRule "$XSS >= 8" BLOCK;

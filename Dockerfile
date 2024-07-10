@@ -25,6 +25,8 @@ COPY src/docker-startup.sh /app
 COPY src/files/authorized_ip /etc/nginx/
 COPY src/files/sites.nginx /etc/nginx/conf.d/notifications.conf
 COPY src/files/nginx_conf /etc/nginx/nginx.conf
+# For testing and development -- overwritten by real rules when deployed
+COPY tests/rules-stub.naxsi /etc/nginx/naxsi.rules
 
 EXPOSE 443
 
