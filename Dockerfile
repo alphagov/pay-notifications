@@ -8,10 +8,10 @@ RUN apk --no-cache add \
     openssl \
     aws-cli \
     tini \
-    nginx=1.26.2-r3 \
-    nginx-mod-http-naxsi=1.26.2-r3 \
-    nginx-mod-http-xslt-filter=1.26.2-r3 \
-    nginx-mod-http-geoip=1.26.2-r3
+    nginx=1.26.2-r4 \
+    nginx-mod-http-naxsi=1.26.2-r4 \
+    nginx-mod-http-xslt-filter=1.26.2-r4 \
+    nginx-mod-http-geoip=1.26.2-r4
 
 RUN install -d /etc/nginx/ssl
 
