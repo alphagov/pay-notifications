@@ -29,12 +29,17 @@ http {
 	charset_types text/css text/plain text/vnd.wap.wml application/javascript application/json application/rss+xml application/xml;
 
 	# Specifies the main log format.
-	log_format main '$server_name:$server_port $http_x_request_id $http_x_forwarded_for $remote_addr $remote_user [$time_local] '
-			'"$request" $status $body_bytes_sent $request_time $http_x_forwarded_proto "$http_referer" '
-			'"$http_user_agent"';
+    log_format key-value 'server="$server_name" dest_port="$server_port" dest_ip="$server_addr" src="$remote_addr" '
+            'src_ip="$realip_remote_addr" time_local="$time_local" protocol="$server_protocol" status="$status" '
+            'bytes_out="$bytes_sent" bytes_in="$upstream_bytes_received" http_referer="$http_referer" '
+            'http_user_agent="$http_user_agent" nginx_version="$nginx_version" '
+            'http_x_forwarded_for="$http_x_forwarded_for" http_x_header="$http_x_header" '
+            'uri_query="$query_string" uri_path="$uri" http_method="$request_method" '
+            'response_time="$upstream_response_time" request_time="$request_time" '
+            'category="$sent_http_content_type" https="$https" x_request_id="$http_x_request_id"';
 
 	# Default access log.
-	access_log /var/log/nginx/access.log main;
+	access_log /var/log/nginx/access.log key-value;
 
 	# Timeout for keep-alive connections. Server will close connections after
 	# this time.
