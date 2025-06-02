@@ -1,4 +1,4 @@
-FROM alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c
+FROM alpine:3.22.0@sha256:8a1f59ffb675680d47db6337b49d22281a139e9d709335b492be023728e11715
 
 RUN apk -U upgrade --available
 
@@ -8,10 +8,10 @@ RUN apk --no-cache add \
     openssl \
     aws-cli \
     tini \
-    nginx=1.26.2-r4 \
-    nginx-mod-http-naxsi=1.26.2-r4 \
-    nginx-mod-http-xslt-filter=1.26.2-r4 \
-    nginx-mod-http-geoip=1.26.2-r4
+    nginx=1.28.0-r3 \
+    nginx-mod-http-naxsi=1.28.0-r3 \
+    nginx-mod-http-xslt-filter=1.28.0-r3 \
+    nginx-mod-http-geoip=1.28.0-r3
 
 RUN install -d /etc/nginx/ssl
 
